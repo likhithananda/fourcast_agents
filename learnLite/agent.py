@@ -41,15 +41,12 @@ quiz_maker = LlmAgent(
 class QuizConductorAgent(BaseAgent):
     async def _run_async_impl(self, ctx: InvocationContext) -> AsyncGenerator:
         quiz_str = ctx.session.state.get("quiz", [])
-        print("=======================QUIZ =====================")
-        print(quiz_str)
-        print("----------------------------------")
         #Convert quiz from string to json
         quiz_json_repair = repair_json(quiz_str)
         quiz_json = json.loads(quiz_json_repair)
-        print("=======================QUIZ JSON =====================")
-        print(quiz_json)
-        print("----------------------------------")
+        # print("=======================QUIZ JSON =====================")
+        # print(quiz_json)
+        # print("----------------------------------")
         user_answers = []
         for idx, qa in enumerate(quiz_json['quiz']):
             print("----------------------------------")
