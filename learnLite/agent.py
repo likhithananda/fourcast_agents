@@ -14,6 +14,8 @@ from google.adk.agents import LlmAgent, BaseAgent, SequentialAgent
 from google.adk.agents.invocation_context import InvocationContext
 from typing import AsyncGenerator
 import asyncio
+import json
+from json_repair import repair_json
 
 from learnLite.instructions import (
     CURRICULUM_PLANNER_INSTRUCTION,
@@ -38,12 +40,20 @@ quiz_maker = LlmAgent(
 # 3. Custom agent to conduct the quiz
 class QuizConductorAgent(BaseAgent):
     async def _run_async_impl(self, ctx: InvocationContext) -> AsyncGenerator:
-        quiz = ctx.session.state.get("quiz", [])
-        print("=======================QUIZ=====================")
-        print(quiz)
+        quiz_str = ctx.session.state.get("quiz", [])
+        print("=======================QUIZ =====================")
+        print(quiz_str)
+        print("----------------------------------")
+        #Convert quiz from string to json
+        quiz_json_repair = repair_json(quiz_str)
+        quiz_json = json.loads(quiz_json_repair)
+        print("=======================QUIZ JSON =====================")
+        print(quiz_json)
         print("----------------------------------")
         user_answers = []
-        for idx, qa in enumerate(quiz):
+        for idx, qa in enumerate(quiz_json['quiz']):
+            print("----------------------------------")
+            print(qa)
             print(f"Question {idx+1}: {qa['question']}")
             user_answer = input("Your answer: ")
             user_answers.append(user_answer)
