@@ -60,6 +60,10 @@ adk web
 
 4. Once all the questions are answered, the loop stores your response and triggers the evaluation_agent which provides a score and a review. 
 
+### Limitations
+- Edge Cases: doesn't work well for weird/ vague inputs.
+- Evaluation loop execution: sometimes fails to capture the user's responses from the state.
+
 ### sample outputs
 #### Snippet of Instructor's Class Session
 ![sample instructor session](images/snippet_of_instructor.png)
